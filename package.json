@@ -1,0 +1,22 @@
+{
+  "name": "assertion-mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@wdio/cli": "^9.12.4"
+  },
+  "devDependencies": {
+    "@wdio/local-runner": "^9.12.4",
+    "@wdio/mocha-framework": "^9.12.3",
+    "@wdio/spec-reporter": "^9.12.3",
+    "@wdio/visual-service": "^6.4.0",
+    "appium-uiautomator2-driver": "^4.1.5"
+  }
+}
