@@ -1,38 +1,28 @@
 const { expect, browser } = require('@wdio/globals')
-const LoginPage = require('../pageobjects/login.page')
-
-
+const MyDemoApp =   require('../pageobjects/login.page')
 const { remote } = require("webdriverio");
 
 
 
 
-before(async () => {
-    await driver.startRecordingScreen();
+//before(async () => {
+    //await driver.startRecordingScreen();
 
-});
-
-
-
+//});
 
 describe('My Demo App Validation', () => {
 
 
    
-    it('see the product in the homepage', async () => {
+    it('View the Products in the homepage', async () => {
+
         const element = await $('//android.widget.TextView[@text="Products"]')  // Locate element by selector
-     
         await expect(element).toBeDisplayed()
         await browser.back();
     })
 
-
-
-    it(' assert element text ', async () => {
-        const element = await $('//android.widget.TextView[@text="Products"]')
-        
-       
-        const text = await element.getText()
+    it('assert product text', async () => {
+        const text =  await MyDemoApp.product.getText()
         expect(text).toBe('Products')
     })
 
@@ -56,37 +46,34 @@ describe('My Demo App Validation', () => {
     })
     
     it('Cart button should be clickable', async () => {
-        const button = await $('//android.view.ViewGroup[@content-desc="cart badge"]/android.widget.ImageView')
-        await expect(button).toBeEnabled() 
+
+        const cart = await MyDemoApp.cart_icon
+        await expect(cart).toBeEnabled() 
+       
     })
 
     it('cart button should be visible after action', async () => {
-        const element = await $('~elementSelector')
-        await element.click()  // Perform action
-        await expect(element).toBeVisible()  // Assert it's visible
+
+        const cart = await MyDemoApp.cart_icon
+        await expect(cart).toBeVisible()  
     })
 
     it('check catalog text', async () => {
-        const button = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView')
-        await button.click()
-        const element = await $('~menu item catalog')
-        const text = await element.getText()
-        expect(text).toBe('Catalog')
-
-       
+        await MyDemoApp.click_hamicon.click();
+        const text = await MyDemoApp.catalog_text.getText();
+        expect(text).toBe('Catalog');
     })
 
 
     it('assert hamburger button is clickable', async () => {
-        const menuButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView')
-        
+
+        const menuButton = await MyDemoApp.click_hamicon
         await expect(menuButton).toBeEnabled()
-        await menuButton.click()
-    
-       
     })
 
     it('assert login text', async () => {
+
+
         const hamButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView').click()
         const menuButton = await $('(//android.view.ViewGroup[@content-desc="store item"])[3]/android.view.ViewGroup[1]/android.widget.ImageView').click()
         const loginElement = await $('//android.widget.TextView[contains(@text, "Login")]');
@@ -99,64 +86,116 @@ describe('My Demo App Validation', () => {
     })
 
     it('assert login', async () => {
-        const hamButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView').click()
-        const menuButton = await $('(//android.view.ViewGroup[@content-desc="store item"])[3]/android.view.ViewGroup[1]/android.widget.ImageView').click()
-        const loginElement = await $('//android.widget.TextView[contains(@text, "Login")]');
 
-        expect(loginElement).toBeEnabled()
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        const text = await MyDemoApp.login_btn.getText()
+        expect(text).toBeEnabled()
 
     })
 
-    it('assert login button', async () => {
 
-        const hamButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView').click()
-        const menuButton = await $('(//android.view.ViewGroup[@content-desc="store item"])[3]/android.view.ViewGroup[1]/android.widget.ImageView').click()
-        const loginElement = await $('//android.widget.TextView[contains(@text, "Login")]').click()
-        const element = await $('(//android.widget.TextView[@text="Login"])[2]')
-        const text = await element.getText()
-        expect(text).toBe('Login')
-    })
+     
+    it('assert login button',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        const text = await MyDemoApp.login_btn.getText()
+        expect(text).toBeDisplayed()
+            
 
-
-
-    it('check login with valid credentials', async () => {
-        const hamButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView').click()
-        const menuButton = await $('(//android.view.ViewGroup[@content-desc="store item"])[3]/android.view.ViewGroup[1]/android.widget.ImageView').click()
-        const loginElement = await $('//android.widget.TextView[contains(@text, "Login")]');
-
-        const user_name = await $('~Username input field');
-        await user_name.setValue('bob@example.com'); 
-        const password = await $('~Password input field');
-        await password.setValue('10203040'); 
-        browser.pause(3000);
-        const login = await $('(//android.widget.TextView[@text="Login"])[2]').click()
-        browser.pause(3000);
-        const title =  await $('//android.widget.TextView[@text="Products"]')
-
-
-        expect(title).toBeDisplayed()
-    })
+    });
 
     
-    it.only('check login with epmuty credentials', async () => {
-        const hamButton = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView').click()
-        const menuButton = await $('(//android.view.ViewGroup[@content-desc="store item"])[3]/android.view.ViewGroup[1]/android.widget.ImageView').click()
-        const loginElement = await $('//android.widget.TextView[contains(@text, "Login")]');
+    it('check login with valid credentials',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('bob@example.com','10203040')
+        const title = MyDemoApp.title
+        expect(title).toBeDisplayed()
+            
 
-        const user_name = await $('~Username input field');
-        await user_name.setValue(''); 
-        browser.pause(3000);
-        const password = await $('~Password input field');
-        await password.setValue(''); 
-        browser.pause(3000);
-        const login = await $('(//android.widget.TextView[@text="Login"])[2]').click()
-        browser.pause(3000);
-        const error_message = await $('//android.widget.TextView[@text="Username is required"]').getText()
+    });
 
-        
-        
-        expect(error_message).toBe('Username is required')
-    })
+    
+   
+    it('check login with emputy fields',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('','')
+        const message = await MyDemoApp.error_message_1.getText()
+        expect(message).toBe('Username is required')
+            
+
+    });
+
+    it('check login with only username',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('bob@example.com','')
+        const message = await MyDemoApp.error_message.getText()
+        expect(message).toBe('Password is required')
+            
+
+    });
+
+ 
+
+    it('check login with only password',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('','10203040')
+        const message = await MyDemoApp.error_message_1.getText()
+        expect(message).toBe('Username is required')
+            
+
+    });
+
+    it('check login with invalid username',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('ashish','10203040')
+        const message = await MyDemoApp.validation_message.getText()
+        expect(message).toBe('Provided credentials do not match any user in this service.')
+            
+
+    });
+
+    it('check login with invalid password',async () => {
+    
+        await MyDemoApp.menu()
+        await MyDemoApp.loginNavbar()
+        await MyDemoApp.login('bob@example.com','12345')
+        const message = await MyDemoApp.validation_message.getText()
+        expect(message).toBe('Provided credentials do not match any user in this service.')
+            
+
+    });
+
+    it('check the logout button',async () => {
+    
+        await MyDemoApp.menu()
+        const logout_btn = await MyDemoApp.logout
+        expect(logout_btn).toBeDisplayed()
+       
+    });
+
+    it.only('check the logout button is clickable',async () => {
+    
+        await MyDemoApp.menu()
+        const logout_btn = await MyDemoApp.logout
+        expect(logout_btn).toBeEnabled()
+       
+    });
+
+
+
+
 
 
 
@@ -166,16 +205,16 @@ describe('My Demo App Validation', () => {
     
 
 
-    after(async () => {
+    //after(async () => {
 
-        const video = await driver.stopRecordingScreen();
+        //const video = await driver.stopRecordingScreen();
     
-        const fs = require("fs");
-        fs.writeFileSync("recording.mp4", Buffer.from(video, "base64"));
+        //const fs = require("fs");
+        //fs.writeFileSync("recording.mp4", Buffer.from(video, "base64"));
     
-        await driver.deleteSession();
+        //await driver.deleteSession();
     
-    });
+    //});
     
 
 
