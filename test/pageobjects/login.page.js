@@ -13,6 +13,8 @@ class MyDemoApp extends Page {
         return $('//android.widget.TextView[@text="Products"]')
     }
 
+   
+
     get catalog_text(){ 
 
         return $('//android.widget.TextView[@text="Catalog"]')
@@ -35,9 +37,13 @@ class MyDemoApp extends Page {
     get webview(){ return $('~menu item webview')}
     get url_input_field(){ return $('//android.widget.EditText[@content-desc="URL input field"]')}
     get go_to_site_btn(){ return $('//android.widget.TextView[@text="Go To Site"] ')}
+    get error_url_field(){return $('//android.widget.TextView[@text="Please provide a correct https url."]') }
+    get homepage_url(){return $('')}
 
     //QR Scanner
     get qr_scanner(){ return $('//android.view.ViewGroup[@content-desc="menu item qr code scanner"]')}
+
+    get qr_scanner_text(){ return $('//android.widget.TextView[@text="QR Code Scanner"]')}
 
     //Drawing
     
@@ -93,12 +99,18 @@ class MyDemoApp extends Page {
 
     }
 
+    get sorting_options(){
+
+        return $('//android.view.ViewGroup[@content-desc="sort button"]/android.widget.ImageView')
+
+   }
+
 
 
     //Logout 
 
 
-    get logout(){ return $('//android.view.ViewGroup[@content-desc="menu item log out"]')}
+    get logout(){ return $('~menu item log out')}
 
     get click_logout(){ return $('//android.widget.Button[@resource-id="android:id/button1"]')}
 
@@ -185,7 +197,6 @@ class MyDemoApp extends Page {
     } 
 
 
-
     
     async login (username, password) {
         
@@ -199,7 +210,21 @@ class MyDemoApp extends Page {
         await this.click_hamicon.click()
     }
 
+    //emputy_text_url
     async web_view(){
+        await this.click_hamicon.click()
+        await browser.pause(3000)
+        await this.webview.click()
+        await browser.pause(3000)
+        await this.url_input_field.setValue('')
+        await this.go_to_site_btn.click()
+        await browser.pause(3000)
+        
+    }
+
+    //valid_url 
+
+    async web_view_valid(){
         await this.click_hamicon.click()
         await browser.pause(3000)
         await this.webview.click()
@@ -207,9 +232,28 @@ class MyDemoApp extends Page {
         await this.url_input_field.setValue('www.google.com')
         await this.go_to_site_btn.click()
         await browser.pause(3000)
+        
     }
 
+     //invalid_url 
+
+     async web_view(){
+        await this.click_hamicon.click()
+        await browser.pause(3000)
+        await this.webview.click()
+        await browser.pause(3000)
+        await this.url_input_field.setValue('www.google.com')
+        await this.go_to_site_btn.click()
+        await browser.pause(3000)
+        
+    }
+
+
+
     async qrscanner(){
+
+        await this.click_hamicon.click()
+        await browser.pause(3000)
         await this.qr_scanner.click()
 
     }

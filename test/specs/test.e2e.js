@@ -16,9 +16,9 @@ describe('My Demo App Validation', () => {
    
     it('View the Products in the homepage', async () => {
 
-        const element = await $('//android.widget.TextView[@text="Products"]')  // Locate element by selector
+        const element = await MyDemoApp.product
         await expect(element).toBeDisplayed()
-        await browser.back();
+        
     })
 
     it('assert product text', async () => {
@@ -28,20 +28,20 @@ describe('My Demo App Validation', () => {
 
    
     it('sorting options should be clickable', async () => {
-        const button = await $('//android.view.ViewGroup[@content-desc="sort button"]/android.widget.ImageView')
-        await expect(button).toBeEnabled()  
+        const button = await MyDemoApp.sorting_options
+        expect(button).toBeEnabled()  
     })
 
     it('sorting options should be visible after action', async () => {
-        const element = await $('//android.view.ViewGroup[@content-desc="sort button"]/android.widget.ImageView')
+        const element =  await MyDemoApp.sorting_options
         await element.click()  
         await expect(element).toBeVisible()
     })
 
 
 
-    it('Hamburger button should be clickable', async () => {
-        const button = await $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView')
+    it.only('Hamburger button should be clickable', async () => {
+        const button = await MyDemoApp.click_hamicon
         await expect(button).toBeEnabled()  
     })
     
@@ -185,13 +185,94 @@ describe('My Demo App Validation', () => {
        
     });
 
-    it.only('check the logout button is clickable',async () => {
+    it('check the logout button is clickable',async () => {
     
         await MyDemoApp.menu()
         const logout_btn = await MyDemoApp.logout
         expect(logout_btn).toBeEnabled()
        
     });
+
+    it('check the text of the logout button',async () => {
+    
+        await MyDemoApp.menu()
+    
+        const text = await MyDemoApp.logout.getText()
+        expect(text).toBe('Log Out')
+       
+    });
+
+    //Assert Webview
+
+    it('check it is clickable',async () => {
+    
+        await MyDemoApp.menu()
+        const btn = await MyDemoApp.web_view
+        expect(btn).toBeEnabled()
+
+       
+    });
+
+    it('check the Go To Site button',async () => {
+    
+        await MyDemoApp.menu()
+        const btn = await MyDemoApp.webview.click()
+        const gotosite_btn = await MyDemoApp.gotosite_btn 
+     
+        expect(gotosite_btn).toBeDisplayed()
+
+       
+    });
+
+    it('check the entered url emputy is not',async () => {
+    
+        await MyDemoApp.web_view()
+        const text = await MyDemoApp.error_url_field.getText()
+ 
+        expect(text).toBe('Please provide a correct https url.')
+    });
+
+    it('check the valid url in the webview',async () => {
+    
+        await MyDemoApp.web_view_valid()
+       
+ 
+        //expect(text).toBe('Please provide a correct https url.')
+    });
+
+    it('check the qr scanner is clickable',async () => {
+    
+        const display = await MyDemoApp.qr_scanner
+        expect(display).toBeEnabled()
+       
+ 
+        //expect(text).toBe('Please provide a correct https url.')
+    });
+
+    it('check the qr scanner is clickable',async () => {
+    
+        const display = await MyDemoApp.qrscanner()
+        expect(display).toBeEnabled()
+       
+ 
+    });
+
+    it('check the title',async () => {
+    
+        await MyDemoApp.qrscanner()
+        const text = await MyDemoApp.qr_scanner_text.getText()
+        expect(text).toBe('QR Code Scanner')
+       
+ 
+    });
+
+
+
+
+
+
+
+
 
 
 
