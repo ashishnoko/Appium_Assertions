@@ -10,9 +10,22 @@ class MyDemoApp extends Page {
     //First Products
     get product(){
 
-        return $('//android.widget.TextView[@text="Products"]')
+        return $('(//android.view.ViewGroup[@content-desc="store item"])[1]/android.view.ViewGroup[1]/android.widget.ImageView')
     }
 
+    get product_title(){
+
+        return $('//android.widget.TextView[@text="Sauce Labs Backpack"]')
+    }
+
+    get product_image(){
+        return $('//android.widget.ScrollView[@content-desc="product screen"]/android.view.ViewGroup/android.widget.ImageView')
+    }
+
+
+    get product_price(){
+        return $('//android.widget.TextView[@content-desc="product price"]')
+    }
    
 
     get catalog_text(){ 
@@ -28,7 +41,7 @@ class MyDemoApp extends Page {
     get counter_plus(){ return $('//android.widget.TextView[@content-desc="store item text" and @text="Sauce Labs Backpack"]')}
     
     //Add to cart 
-    get addtocart(){ return $('//android.view.ViewGroup[@content-desc="Add To Cart button"]')}
+    get addtocart(){ return $('//android.widget.TextView[@text="Add To Cart"]')}
     
     //Hamburger icon
     get click_hamicon(){return $('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView')}
@@ -121,6 +134,8 @@ class MyDemoApp extends Page {
 
     get cart_icon(){return $('//android.view.ViewGroup[@content-desc="cart badge"]/android.widget.ImageView')}
 
+   
+
 
     //Go shopping
 
@@ -140,7 +155,10 @@ class MyDemoApp extends Page {
     get add_the_product(){return $('//android.view.ViewGroup[@content-desc="counter plus button"]/android.widget.ImageView')}
 
     //For Checkout
+
+    get checkout_title(){ return $('//android.widget.TextView[@text="Checkout"]')}
     get full_name(){return $('//android.widget.EditText[@content-desc="Full Name* input field"]')}
+    get invalid_fullname(){return $('//android.widget.TextView[@text="Please provide your full name."]')}
     
 
     get addressline1(){return $('//android.widget.EditText[@content-desc="Address Line 1* input field"]')}
@@ -151,10 +169,21 @@ class MyDemoApp extends Page {
     get state_region(){return $('//android.widget.EditText[@content-desc="State/Region input field"]')}
 
     get zip_code(){ return $('//android.widget.EditText[@content-desc="Zip Code* input field"]')}
+  
+
+    get zip_code_validation(){ return $('//android.widget.TextView[@text="Please provide your zip code."]')}
+
 
     get country(){ return $('//android.widget.EditText[@content-desc="Country* input field"]')}
 
+    //For payment
+
     get payment(){ return $('//android.widget.TextView[@text="To Payment"]')}
+
+
+    get payment_text(){ return $('//android.widget.TextView[@text="Enter a payment method"]')}
+
+   //For paymeny method
 
     get full_name_2(){ return $('//android.widget.EditText[@content-desc="Full Name* input field"]')}
 
@@ -167,6 +196,10 @@ class MyDemoApp extends Page {
     get review_order_btn (){ return $('//android.widget.TextView[@text="Review Order"]')}
 
     get place_order(){ return $('//android.widget.TextView[@text="Place Order"]')}
+
+    get product_label(){return $('//android.widget.TextView[@content-desc="product label"]')}
+
+    //android.widget.TextView[@content-desc="product label"]
 
     get continue_shopping(){return $('//android.widget.TextView[@text="Continue Shopping"]')}
 
@@ -293,11 +326,13 @@ class MyDemoApp extends Page {
         await this.log_in.click()
 
     }
-   
+
+    
+ 
     
 
     async checkout(fullname,addressline1,addressline2,city,state_region,zip_code,country){
-        await this.fullname.setValue(fullname);
+        await this.full_name.setValue(fullname);
         await this.addressline1.setValue(addressline1)
         await this.addressline2.setValue(addressline2)
         await this.city.setValue(city);
@@ -307,6 +342,17 @@ class MyDemoApp extends Page {
         await this.payment.click()
     
     }
+
+    async payment_method(full_name_2,card_number,expiration_date,security_code){
+        await this.full_name_2.setValue(full_name_2);
+        await this.card_number.setValue(card_number)
+        await this.expiration_date.setValue(expiration_date)
+        await this.security_code.setValue(security_code);
+       
+        await this.review_order_btn.click()
+    
+    }
+   
 
     /**
      * overwrite specific options to adapt it to page object

@@ -66,6 +66,19 @@ exports.config = {
             'appium:videoPath': "C:\Users\A C E R\Desktop\Testing Video\video"
           
     }],
+    framework: 'cucumber',
+  reporters: ['spec'],
+  cucumberOpts: {
+  
+    require: ['./step_definitions/**/*.js'], // Path to step definitions
+    backtrace: true, // Include full stack trace for errors
+    requireModule: ['@babel/register'],
+  },
+  services: ['appium'],
+  appium: {
+    command: 'appium', // Appium command
+  },
+   
 
     //
     // ===================

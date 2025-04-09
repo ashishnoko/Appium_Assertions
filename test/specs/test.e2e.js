@@ -16,8 +16,8 @@ describe('My Demo App Validation', () => {
    
     it('View the Products in the homepage', async () => {
 
-        const element = await MyDemoApp.product
-        await expect(element).toBeDisplayed()
+        const element =  MyDemoApp.product
+        expect(element).toBeDisplayed()
         
     })
 
@@ -28,7 +28,7 @@ describe('My Demo App Validation', () => {
 
    
     it('sorting options should be clickable', async () => {
-        const button = await MyDemoApp.sorting_options
+        const button =  MyDemoApp.sorting_options
         expect(button).toBeEnabled()  
     })
 
@@ -40,21 +40,21 @@ describe('My Demo App Validation', () => {
 
 
 
-    it.only('Hamburger button should be clickable', async () => {
-        const button = await MyDemoApp.click_hamicon
+    it('Hamburger button should be clickable', async () => {
+        const button =  MyDemoApp.click_hamicon
         await expect(button).toBeEnabled()  
     })
     
     it('Cart button should be clickable', async () => {
 
-        const cart = await MyDemoApp.cart_icon
+        const cart = MyDemoApp.cart_icon
         await expect(cart).toBeEnabled() 
        
     })
 
     it('cart button should be visible after action', async () => {
 
-        const cart = await MyDemoApp.cart_icon
+        const cart =  MyDemoApp.cart_icon
         await expect(cart).toBeVisible()  
     })
 
@@ -67,7 +67,7 @@ describe('My Demo App Validation', () => {
 
     it('assert hamburger button is clickable', async () => {
 
-        const menuButton = await MyDemoApp.click_hamicon
+        const menuButton = MyDemoApp.click_hamicon
         await expect(menuButton).toBeEnabled()
     })
 
@@ -207,7 +207,7 @@ describe('My Demo App Validation', () => {
     it('check it is clickable',async () => {
     
         await MyDemoApp.menu()
-        const btn = await MyDemoApp.web_view
+        const btn =  MyDemoApp.web_view
         expect(btn).toBeEnabled()
 
        
@@ -246,7 +246,7 @@ describe('My Demo App Validation', () => {
         expect(display).toBeEnabled()
        
  
-        //expect(text).toBe('Please provide a correct https url.')
+  
     });
 
     it('check the qr scanner is clickable',async () => {
@@ -265,6 +265,158 @@ describe('My Demo App Validation', () => {
        
  
     });
+
+    //addingtothecart
+
+    it('check the products title',async () => {
+    
+        await MyDemoApp.product.click()
+        const text = await MyDemoApp.product_title.getText()
+
+        expect(text).toBe('Sauce Labs Backpack')
+      
+ 
+    });
+
+    it('check the Add To Cart button ',async () => {
+    
+        await MyDemoApp.product.click()
+        const text = await  MyDemoApp.addtocart.getText()
+
+        expect(text).toBe('Add To Cart')
+    });
+
+    
+    it('check the product image',async () => {
+    
+        await MyDemoApp.product.click()
+        const image =  MyDemoApp.product_image
+
+        expect(image).toBeDisplayed()
+    });
+
+  
+
+    
+    it('check the product price',async () => {
+    
+        await MyDemoApp.product.click()
+        const text =  MyDemoApp.product_price
+
+
+        expect(text).toBeDisplayed()
+    });
+
+    it('check the product price',async () => {
+    
+        await MyDemoApp.product.click()
+        const text =  MyDemoApp.product_price
+
+
+        expect(text).toBeDisplayed()
+    });
+
+    //Cart Section
+
+    it('check the Remove Item is clickable ',async () => {
+
+        await MyDemoApp.product.click()
+        MyDemoApp.addtocart
+        browser.pause(2000)
+        await MyDemoApp.cart_icon.click()
+        browser.pause(2000)
+
+        const click = MyDemoApp.remove_item
+        expect(click).toBeEnabled()
+    });
+
+    
+    it('check the Proceed to Checkout button is clickable ',async () => {
+
+        await MyDemoApp.product.click()
+        MyDemoApp.addtocart
+        await MyDemoApp.cart_icon.click()
+        const click = MyDemoApp.proceed_to_checkout
+        expect(click).toBeEnabled()
+    });
+
+    //checkout process
+
+    it('check the title in checkout is visible',async () => {
+
+        await MyDemoApp.cart()
+        await MyDemoApp.login('bob@example.com','10203040')
+        const text = MyDemoApp.checkout_title.getText()
+        expect(text).toBeDisplayed()
+
+    });
+
+
+    //shippingAddress
+
+    it('check the entered shipping is valid ',async () => {
+
+        await MyDemoApp.cart()
+        await MyDemoApp.login('bob@example.com','10203040')
+        await MyDemoApp.checkout('Bruno Fernandes','Portugal','Manchester','Kathmandu','Cornwall','444600','Nepal')
+        const payment_method = MyDemoApp.payment_text.getText()
+        expect(payment_method).toBeVisible
+    });
+
+    it('check the fullname of the shipping address',async () => {
+
+        await MyDemoApp.cart()
+        await MyDemoApp.login('bob@example.com','10203040')
+        await MyDemoApp.checkout('','Portugal','Manchester','Kathmandu','Cornwall','444600','Nepal')
+        const validation_message =  await MyDemoApp.invalid_fullname.getText()
+        expect(validation_message).toBe('Please provide your full name.')
+        await browser.pause(5000)
+      
+    });
+
+    it('check the zipcode',async () => {
+
+        await MyDemoApp.cart()
+        await MyDemoApp.login('bob@example.com','10203040')
+        await MyDemoApp.checkout('Ashish','Portugal','Manchester','Kathmandu','Cornwall','','Nepal')
+        const number =  await MyDemoApp.zip_code_validation.getText()
+        expect(number).toBe('Please provide your zip code.')
+        await browser.pause(5000)
+      
+    });
+
+    //paymentcard
+
+    it.only('check the payment by using valid credentials',async () => {
+
+        await MyDemoApp.cart()
+        await MyDemoApp.login('bob@example.com','10203040')
+        await MyDemoApp.checkout('John Rai','Portugal','Manchester','Kathmandu','Cornwall','44600','Nepal')
+        await MyDemoApp.payment_method('John Rai','2345 5678 4567 678','03/45','123')
+        await MyDemoApp.review_order_btn.click()
+
+        const text = await MyDemoApp.product_label.getText()
+        expect(text).toBeVisible
+
+
+       
+        
+        await browser.pause(5000)
+      
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
