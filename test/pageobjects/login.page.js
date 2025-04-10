@@ -13,6 +13,12 @@ class MyDemoApp extends Page {
         return $('(//android.view.ViewGroup[@content-desc="store item"])[1]/android.view.ViewGroup[1]/android.widget.ImageView')
     }
 
+    get last_product(){
+
+        return $('(//android.view.ViewGroup[@content-desc="store item"])[5]/android.view.ViewGroup[1]/android.widget.ImageView')
+
+    }
+
     get product_title(){
 
         return $('//android.widget.TextView[@text="Sauce Labs Backpack"]')
@@ -112,6 +118,8 @@ class MyDemoApp extends Page {
 
     }
 
+    //Sortingproducts
+
     get sorting_options(){
 
         return $('//android.view.ViewGroup[@content-desc="sort button"]/android.widget.ImageView')
@@ -183,23 +191,34 @@ class MyDemoApp extends Page {
 
     get payment_text(){ return $('//android.widget.TextView[@text="Enter a payment method"]')}
 
-   //For paymeny method
+   //For payment method
 
     get full_name_2(){ return $('//android.widget.EditText[@content-desc="Full Name* input field"]')}
 
+    get validationvalue_name() { return $('//android.widget.TextView[@text="Value looks invalid."]')}
+  
+
     get card_number(){ return $('//android.widget.EditText[@content-desc="Card Number* input field"]')}
+
+    get invalid_cardnumber(){ return $('//android.widget.TextView[@text="Value looks invalid."]')}
+
+
 
     get expiration_date(){ return $('//android.widget.EditText[@content-desc="Expiration Date* input field"]')}
 
     get security_code(){ return $('//android.widget.EditText[@content-desc="Security Code* input field"]')}
+    get invalid_code() { return $('//android.widget.TextView[@text="Value looks invalid."]')}
+
+    
     
     get review_order_btn (){ return $('//android.widget.TextView[@text="Review Order"]')}
 
     get place_order(){ return $('//android.widget.TextView[@text="Place Order"]')}
+    get checkout_complete() { return $('//android.widget.TextView[@text="Your new swag is on its way"]')}
 
     get product_label(){return $('//android.widget.TextView[@content-desc="product label"]')}
 
-    //android.widget.TextView[@content-desc="product label"]
+    
 
     get continue_shopping(){return $('//android.widget.TextView[@text="Continue Shopping"]')}
 
@@ -228,6 +247,11 @@ class MyDemoApp extends Page {
     get title(){
         return $('//android.widget.TextView[@text="Products"]')
     } 
+
+    get about_section(){
+        return $('//android.widget.TextView[@text="About"]')
+    } 
+ 
 
 
     
@@ -347,6 +371,7 @@ class MyDemoApp extends Page {
         await this.full_name_2.setValue(full_name_2);
         await this.card_number.setValue(card_number)
         await this.expiration_date.setValue(expiration_date)
+        await this.security_code.clearValue()
         await this.security_code.setValue(security_code);
        
         await this.review_order_btn.click()
